@@ -1,0 +1,5 @@
+
+.inputElements  {
+  display: flex ;
+  flex-direction: column;
+}
