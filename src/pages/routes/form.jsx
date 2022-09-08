@@ -5,20 +5,20 @@ export default function Form() {
 
   //Var to form
 
-  const [ circuitName, setCircuitName ] = useState("")
-  const [ demand_kVA, setDemand_kVA ] = useState(0)
-  const [ lineVoltage , setLineVoltage ] = useState(0)
-  const [ powerFactor, setPowerFactor ] = useState(0.92)
-  const [ conductorLengthMeters, setConductorLengthMeters ] = useState(0)
-  const [ conductorCrossSectionMM, setConductorCrossSectionMM ] = useState(0)
+  const [circuitName, setCircuitName] = useState("")
+  const [demand_kVA, setDemand_kVA] = useState()
+  const [lineVoltage, setLineVoltage] = useState()
+  const [powerFactor, setPowerFactor] = useState()
+  const [conductorLengthMeters, setConductorLengthMeters] = useState()
+  const [conductorCrossSectionMM, setConductorCrossSectionMM] = useState()
 
-  const [ circuitElements, setCircuitElements ] = useState([])
+  const [circuitElements, setCircuitElements] = useState([])
 
 
-  async function saveCircuitElement(){
-    await fetch('/api/form',{
-      method:'POST',
-      body:JSON.stringify({
+  async function saveCircuitElement() {
+    await fetch('/api/form', {
+      method: 'POST',
+      body: JSON.stringify({
         circuitName,
         demand_kVA,
         lineVoltage,
@@ -41,53 +41,79 @@ export default function Form() {
 
   }
 
-  function renderizarCircuitElements(){
+  function renderizarCircuitElements() {
     return circuitElements.map((circuitElement, i) => {
-      return <li key={i}> O circuito {circuitElement.circuitName} que trabalha com a demanda máxima de { circuitElement.demand_kVA } kVA. Onde 
-      a tensão fase terra do empreendimento é {circuitElement.lineVoltage}V. {circuitElement.conductorLengthMeters} metros é o comprimento dos 
-      condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros. 
-       </li> 
+      return <li key={i}> O circuito {circuitElement.circuitName} que trabalha com a demanda máxima de {circuitElement.demand_kVA} kVA. Onde
+        a tensão fase terra do empreendimento é {circuitElement.lineVoltage}V. {circuitElement.conductorLengthMeters} metros é o comprimento dos
+        condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros.
+      </li>
     })
   }
 
   return (
-    
+
     <div className="styleInputs" >
-      
+
       <h1>
         Voltage drop calculation
       </h1>
-      
-      <div >
-      <input type="text" value={circuitName} placeholder="Coloque o nome do cicuito. Ex: Circuito 1" onChange={ e => setCircuitName(e.target.value)}></input>
-      
-      </div>
-      <div className="InputWithUnit" >
-          <input type="number" value={demand_kVA} placeholder="Coloque o valor da demanda. Ex: 50" onChange={ e => setDemand_kVA(+e.target.value)}></input> 
+      <form  >
+        <div class="field" >
+          <label for="namecircuit" >
+            <i class="far fa-user" > Circuit name : </i>
+             </label>
+          <input type="text" name="namecircuit" value={circuitName} placeholder="Ex: 1º circuito" onChange={e => setCircuitName(e.target.value)}></input> 
+        </div>
+      <div class="field">
+      <label for="demand_in_kVA" >
+            <i class="far fa-envelope" > Demand in kVA : </i>
+             </label>
+        <div className="InputWithUnit" >
+          <input type="number" name="demand_in_kVA" value={demand_kVA} placeholder="Ex: 50 kVA" onChange={e => setDemand_kVA(+e.target.value)}></input>
           <span> kVA</span>
-      </div>
-
-      <div className="InputWithUnit" >
-          <input type="number" value={lineVoltage} placeholder="Coloque o valor de tensão de linha Ex: 220" onChange={ e => setLineVoltage(+e.target.value)}></input> 
+        </div>
+      </div> 
+     <div class="field" >
+       <label for="linevoltage" >
+          <i class="far fa-envelope"> Line Voltage :</i>
+       </label>
+        <div className="InputWithUnit" >
+          <input type="number" name="linevoltage" value={lineVoltage} placeholder="Ex: 220 V" onChange={e => setLineVoltage(+e.target.value)}></input>
           <span> V</span>
-      </div>
+        </div>
 
-      <div className="InputWithUnit" >
-          <input type="number" value={powerFactor} placeholder="Coloque o valor do Fator de potencia Ex: 1" onChange={ e => setPowerFactor(+e.target.value)}></input>
-      </div>
+        <div class="field">
+        </div>
+        <label for="powerfactor" >
+          <i class="far fa-envelope" > Power Factor :</i> 
+          </label> 
+        <div className="InputWithUnit" >
+          <input type="number" name="powerfactor"  value={powerFactor} placeholder="Ex: 1 " onChange={e => setPowerFactor(+e.target.value)}></input>
+        </div>
 
-      <div className="InputWithUnit" >
-          <input type="number" value={conductorLengthMeters} placeholder="Qual o tamanho do condutor ? Ex: 20" onChange={ e => setConductorLengthMeters(+e.target.value)}></input> 
+        </div>
+        <div class="field" >
+          <label for="conductorlengthmeters" >
+            <i class="far fa-envelope">Conductor length in meters</i>
+          </label>
+        <div className="InputWithUnit" >
+          <input type="number" name="conductorlengthmeters" value={conductorLengthMeters} placeholder="Ex: 20 m" onChange={e => setConductorLengthMeters(+e.target.value)}></input>
           <span> m</span>
-      </div>
-
-      <div className="InputWithUnit" >
-          <input type="number" value={conductorCrossSectionMM} placeholder="Qual a seção do condutor ? Ex: 6" onChange={ e => setConductorCrossSectionMM(+e.target.value)}></input> 
+        </div>
+        </div>
+        <div class="field" >
+          <label for="conductorcrosssectionmm" >
+            <i class="far fa-envelope">Conductor cross section in mm²</i>
+          </label>
+        <div className="InputWithUnit" >
+          <input type="number" name="conductorcrosssectionmm"  value={conductorCrossSectionMM} placeholder="Ex: 6 mm²" onChange={e => setConductorCrossSectionMM(+e.target.value)}></input>
           <span> mm²</span>
-      </div>
-    <button onClick={saveCircuitElement } > Save </button>
+        </div>
+        </div>
+      </form>
+      <button onClick={saveCircuitElement} type="reset" > Save </button>
 
-    <ul> { renderizarCircuitElements() } </ul>
+      <ul> {renderizarCircuitElements()} </ul>
 
     </div>
   )
