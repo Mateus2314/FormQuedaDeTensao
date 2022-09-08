@@ -29,11 +29,11 @@ export default function Form() {
     })
 
     setCircuitName("")
-    setDemand_kVA(0)
-    setLineVoltage(0)
-    setPowerFactor(0)
-    setConductorLengthMeters(0)
-    setConductorCrossSectionMM(0)
+    setDemand_kVA("")
+    setLineVoltage("")
+    setPowerFactor("")
+    setConductorLengthMeters("")
+    setConductorCrossSectionMM("")
 
     const resp = await fetch('/api/form')
     const circuitElements = await resp.json()
@@ -60,7 +60,7 @@ export default function Form() {
       <form  >
         <div class="field" >
           <label for="namecircuit" >
-            <i class="far fa-user" > Circuit name : </i>
+            <i class="far fa-envelope" > Circuit name : </i>
              </label>
           <input type="text" name="namecircuit" value={circuitName} placeholder="Ex: 1º circuito" onChange={e => setCircuitName(e.target.value)}></input> 
         </div>
@@ -70,7 +70,7 @@ export default function Form() {
              </label>
         <div className="InputWithUnit" >
           <input type="number" name="demand_in_kVA" value={demand_kVA} placeholder="Ex: 50 kVA" onChange={e => setDemand_kVA(+e.target.value)}></input>
-          <span> kVA</span>
+          <span>  kVA</span>
         </div>
       </div> 
      <div class="field" >
@@ -79,7 +79,7 @@ export default function Form() {
        </label>
         <div className="InputWithUnit" >
           <input type="number" name="linevoltage" value={lineVoltage} placeholder="Ex: 220 V" onChange={e => setLineVoltage(+e.target.value)}></input>
-          <span> V</span>
+          <span>  V</span>
         </div>
 
         <div class="field">
@@ -98,7 +98,7 @@ export default function Form() {
           </label>
         <div className="InputWithUnit" >
           <input type="number" name="conductorlengthmeters" value={conductorLengthMeters} placeholder="Ex: 20 m" onChange={e => setConductorLengthMeters(+e.target.value)}></input>
-          <span> m</span>
+          <span>  m</span>
         </div>
         </div>
         <div class="field" >
