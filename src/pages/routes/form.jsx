@@ -11,6 +11,7 @@ export default function Form() {
   const [powerFactor, setPowerFactor] = useState()
   const [conductorLengthMeters, setConductorLengthMeters] = useState()
   const [conductorCrossSectionMM, setConductorCrossSectionMM] = useState()
+  const [ currentNom, setCurrentNom] = useState(0)
 
   const [circuitElements, setCircuitElements] = useState([])
 
@@ -24,10 +25,13 @@ export default function Form() {
         lineVoltage,
         powerFactor,
         conductorLengthMeters,
-        conductorCrossSectionMM
+        conductorCrossSectionMM,
+        currentNom : (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
       })
     })
 
+   // let varCurrentNom = (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
+    setCurrentNom("")
     setCircuitName("")
     setDemand_kVA("")
     setLineVoltage("")
@@ -43,11 +47,16 @@ export default function Form() {
 
   function renderizarCircuitElements() {
     return circuitElements.map((circuitElement, i) => {
-      return <li key={i}> O circuito {circuitElement.circuitName} que trabalha com a demanda máxima de {circuitElement.demand_kVA} kVA. Onde
+      return <> <li key={i}> O circuito {circuitElement.circuitName} que trabalha com a demanda máxima de {circuitElement.demand_kVA} kVA. Onde
         a tensão fase terra do empreendimento é {circuitElement.lineVoltage}V. {circuitElement.conductorLengthMeters} metros é o comprimento dos
-        condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros.
+        condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros. 
+      </li> 
+      <li>
+        A corrente nominal é {circuitElement.currentNom.toFixed(2)  } A.
       </li>
+      </>
     })
+    
   }
 
   return (
