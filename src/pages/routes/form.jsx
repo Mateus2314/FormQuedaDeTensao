@@ -22,6 +22,8 @@ export default function Form() {
     let varCurrentNom = (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
     let varCunductorCrossSectionsMinimun = ((Math.sqrt(3) * conductorLengthMeters * varCurrentNom) / (lineVoltage * (2/100) * 56))
 
+
+
     await fetch('/api/form', {
       method: 'POST',
       body: JSON.stringify({
@@ -32,7 +34,7 @@ export default function Form() {
         conductorLengthMeters,
         conductorCrossSectionMM,
         currentNom : varCurrentNom,
-        conductorCrossSecttionMinimun : varCunductorCrossSectionsMinimun
+        conductorCrossSectionMinimun : varCunductorCrossSectionsMinimun
       })
     })
 
@@ -58,7 +60,7 @@ export default function Form() {
         condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros. 
        
         A corrente nominal é {circuitElement.currentNom.toFixed(2) } A.
-        A seção teorica mínima para o circuito é { circuitElement.conductorCrossSecttionMinimun.toFixed(2) } mm².  
+        A seção teorica mínima para o circuito é { circuitElement.conductorCrossSectionMinimun.toFixed(2) } mm².  
 
       </li> 
       
