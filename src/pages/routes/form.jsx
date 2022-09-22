@@ -13,6 +13,7 @@ export default function Form() {
   const [conductorCrossSectionMM, setConductorCrossSectionMM] = useState()
   const [ currentNom, setCurrentNom] = useState(0)
   
+  
 
   const [circuitElements, setCircuitElements] = useState([])
 
@@ -20,8 +21,14 @@ export default function Form() {
   async function saveCircuitElement() {
   
     let varCurrentNom = (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
-    let varCunductorCrossSectionsMinimun = ((Math.sqrt(3) * conductorLengthMeters * varCurrentNom) / (lineVoltage * (2/100) * 56))
+    let varConductorCrossSectionsMinimun = ((Math.sqrt(3) * conductorLengthMeters * varCurrentNom) / (lineVoltage * (2/100) * 56))
+    let varRespConductorCrossSection = ""
 
+    if( varConductorCrossSectionsMinimun > conductorCrossSectionMM ){
+         varRespConductorCrossSection = "Condutor não atende !"
+    }else if( varConductorCrossSectionsMinimun <= conductorCrossSectionMM ){
+         varRespConductorCrossSection = "Condutor atende o circuito!"
+    }
 
 
     await fetch('/api/form', {
@@ -34,7 +41,8 @@ export default function Form() {
         conductorLengthMeters,
         conductorCrossSectionMM,
         currentNom : varCurrentNom,
-        conductorCrossSectionMinimun : varCunductorCrossSectionsMinimun
+        conductorCrossSectionMinimun : varConductorCrossSectionsMinimun,
+        respConductorCrossSection : varRespConductorCrossSection  
       })
     })
 
@@ -60,7 +68,9 @@ export default function Form() {
         condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros. 
        
         A corrente nominal é {circuitElement.currentNom.toFixed(2) } A.
-        A seção teorica mínima para o circuito é { circuitElement.conductorCrossSectionMinimun.toFixed(2) } mm².  
+        A seção teorica mínima para o circuito é { circuitElement.conductorCrossSectionMinimun.toFixed(2) } mm². 
+
+        { circuitElement.respConductorCrossSection }
 
       </li> 
       
