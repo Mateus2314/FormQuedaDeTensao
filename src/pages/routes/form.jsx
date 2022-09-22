@@ -12,11 +12,16 @@ export default function Form() {
   const [conductorLengthMeters, setConductorLengthMeters] = useState()
   const [conductorCrossSectionMM, setConductorCrossSectionMM] = useState()
   const [ currentNom, setCurrentNom] = useState(0)
+  
 
   const [circuitElements, setCircuitElements] = useState([])
 
 
   async function saveCircuitElement() {
+  
+    let varCurrentNom = (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
+    let varCunductorCrossSectionsMinimun = ((Math.sqrt(3) * conductorLengthMeters * varCurrentNom) / (lineVoltage * (2/100) * 56))
+
     await fetch('/api/form', {
       method: 'POST',
       body: JSON.stringify({
@@ -26,11 +31,12 @@ export default function Form() {
         powerFactor,
         conductorLengthMeters,
         conductorCrossSectionMM,
-        currentNom : (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
+        currentNom : varCurrentNom,
+        conductorCrossSecttionMinimun : varCunductorCrossSectionsMinimun
       })
     })
 
-   // let varCurrentNom = (((demand_kVA * 1000)/(lineVoltage * Math.sqrt(3))/powerFactor))
+    
     setCurrentNom("")
     setCircuitName("")
     setDemand_kVA("")
@@ -50,10 +56,12 @@ export default function Form() {
       return <> <li key={i}> O circuito {circuitElement.circuitName} que trabalha com a demanda máxima de {circuitElement.demand_kVA} kVA. Onde
         a tensão fase terra do empreendimento é {circuitElement.lineVoltage}V. {circuitElement.conductorLengthMeters} metros é o comprimento dos
         condutores. Foi dimensionando uma seção de {circuitElement.conductorCrossSectionMM} metros. 
+       
+        A corrente nominal é {circuitElement.currentNom.toFixed(2) } A.
+        A seção teorica mínima para o circuito é { circuitElement.conductorCrossSecttionMinimun.toFixed(2) } mm².  
+
       </li> 
-      <li>
-        A corrente nominal é {circuitElement.currentNom.toFixed(2)  } A.
-      </li>
+      
       </>
     })
     
