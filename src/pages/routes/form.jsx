@@ -82,10 +82,12 @@ export default function Form() {
   return (
 
     <div className="styleInputs" >
-
-      <h1>
-        Voltage drop calculation
-      </h1>
+      <div className="cabecario"> 
+        <h1>
+          Voltage drop calculation
+        </h1>
+       </div>
+      
       <form  >
         <div class="field" >
           <label for="namecircuit" >

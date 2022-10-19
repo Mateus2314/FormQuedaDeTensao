@@ -1,6 +1,6 @@
 
 @import url("https://fonts.googleapis.com/css?family=Saira+Semi+Condensed&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&display=swap");
 html,
 body {
   padding: 0;
@@ -16,7 +16,7 @@ a {
 
 * {
   box-sizing: border-box;
-  font-family: "Saira Semi Condensed", sans-serif;
+  font-family: 'Fira Code', "Saira Semi Condensed", sans-serif;
   transition: all 0.5s ease;
 }
 
@@ -31,7 +31,7 @@ a {
 }
 
 body, h1 {
-  color : #27da7b;
+  color :#fff;
 }
 
 body, span {
@@ -134,4 +134,15 @@ button:hover {
   form {
     width: 100%;
   }
+}
+
+.cabecario  {
+  display: flex;
+  background-color: #1D4884;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+
 }
